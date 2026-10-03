@@ -1,0 +1,13 @@
+{
+  "material": {
+    "arcana.crystalsong": "#B98CFF",
+    "arcana.quicksteel": "#7FD8E8",
+    "arcana.starstone": "#FFC95C"
+  },
+  "modifier": {
+    "arcana.manaflow": "#4FD1A5",
+    "arcana.deepwell": "#5B8CFF",
+    "arcana.swiftcast": "#7FD8E8",
+    "arcana.manawell": "#FFC95C"
+  }
+}

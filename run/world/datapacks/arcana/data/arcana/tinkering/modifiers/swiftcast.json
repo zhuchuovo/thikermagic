@@ -1,0 +1,14 @@
+{
+  "level_display": "tconstruct:default",
+  "modules": [
+    {
+      "type": "tconstruct:attribute",
+      "attribute": "thikermagic:spell_cooldown_reduction",
+      "each_level": 0.08,
+      "operation": "add_value",
+      "slots": ["mainhand", "offhand", "head", "chest", "legs", "feet"],
+      "tooltip_style": "percent"
+    }
+  ],
+  "tooltip_display": "always"
+}

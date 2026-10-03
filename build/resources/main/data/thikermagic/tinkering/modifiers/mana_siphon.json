@@ -1,0 +1,21 @@
+{
+  "level_display": "tconstruct:default",
+  "modules": [
+    {
+      "type": "tconstruct:attribute",
+      "attribute": "thikermagic:mana_regen",
+      "each_level": 0.15,
+      "operation": "add_value",
+      "slots": [
+        "mainhand",
+        "offhand",
+        "feet",
+        "legs",
+        "chest",
+        "head"
+      ],
+      "tooltip_style": "boost"
+    }
+  ],
+  "tooltip_display": "always"
+}

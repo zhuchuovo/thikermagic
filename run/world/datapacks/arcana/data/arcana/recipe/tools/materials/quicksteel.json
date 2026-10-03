@@ -1,0 +1,15 @@
+{
+  "type": "tconstruct:material",
+  "ingredient": {
+    "item": "ars_nouveau:manipulation_essence"
+  },
+  "material": "arcana:quicksteel",
+  "needed": 1,
+  "value": 1,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "ars_nouveau"
+    }
+  ]
+}

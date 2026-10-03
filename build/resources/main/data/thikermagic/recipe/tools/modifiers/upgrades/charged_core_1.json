@@ -1,0 +1,26 @@
+{
+  "type": "tconstruct:modifier",
+  "allow_crystal": true,
+  "inputs": [
+    {
+      "item": "minecraft:lightning_rod"
+    },
+    {
+      "amount_needed": 4,
+      "item": "minecraft:copper_ingot"
+    },
+    {
+      "item": "minecraft:redstone_block"
+    }
+  ],
+  "level": 1,
+  "result": "thikermagic:charged_core",
+  "slots": {
+    "upgrades": 1
+  },
+  "tools": [
+    {
+      "tag": "tconstruct:modifiable/held"
+    }
+  ]
+}

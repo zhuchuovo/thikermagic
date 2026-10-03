@@ -1,0 +1,5 @@
+{
+  "thikermagic:charged_core": "minecraft:block/lightning_rod",
+  "thikermagic:lifesteal": "tconstruct:gui/modifiers/melee/necrotic",
+  "thikermagic:creative_flight": [ "minecraft:item/elytra", "tconstruct:gui/modifiers/plus" ]
+}

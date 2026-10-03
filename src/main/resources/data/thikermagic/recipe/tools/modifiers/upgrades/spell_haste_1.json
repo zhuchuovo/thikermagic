@@ -1,0 +1,32 @@
+{
+  "type": "tconstruct:modifier",
+  "allow_crystal": true,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "ars_nouveau"
+    }
+  ],
+  "inputs": [
+    {
+      "amount_needed": 2,
+      "item": "ars_nouveau:source_gem"
+    },
+    {
+      "item": "minecraft:sugar"
+    }
+  ],
+  "level": 1,
+  "result": "thikermagic:spell_haste",
+  "slots": {
+    "upgrades": 1
+  },
+  "tools": [
+    {
+      "tag": "tconstruct:modifiable/armor"
+    },
+    {
+      "tag": "tconstruct:modifiable/held"
+    }
+  ]
+}

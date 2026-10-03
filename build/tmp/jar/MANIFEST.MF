@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Specification-Title: Thiker Magic
+Specification-Vendor: YG
+Specification-Version: 1
+Implementation-Title: ThikerMagic
+Implementation-Version: 1.21.1-1.0.0
+Implementation-Vendor: YG
+

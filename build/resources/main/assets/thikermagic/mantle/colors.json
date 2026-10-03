@@ -1,0 +1,12 @@
+{
+  "modifier": {
+    "thikermagic.mana_siphon": "#4FD1A5",
+    "thikermagic.spell_haste": "#7FD8E8",
+    "thikermagic.arcane_attunement": "#B98CFF",
+    "thikermagic.mana_reservoir": "#2E9BFF",
+    "thikermagic.arcane_surge": "#FF7B4F",
+    "thikermagic.charged_core": "#FFD34E",
+    "thikermagic.lifesteal": "#C0264A",
+    "thikermagic.creative_flight": "#9BE7FF"
+  }
+}

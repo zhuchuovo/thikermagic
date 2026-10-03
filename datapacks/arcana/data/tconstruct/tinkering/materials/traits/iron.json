@@ -1,0 +1,18 @@
+{
+  "perStat": {
+    "tconstruct:melee_harvest": [
+      {
+        "level": 1,
+        "name": "tconstruct:magnetic"
+      },
+      {
+        "level": 2,
+        "name": "thikermagic:charged_core"
+      },
+      {
+        "level": 2,
+        "name": "arcana:manaflow"
+      }
+    ]
+  }
+}

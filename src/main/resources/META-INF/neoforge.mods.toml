@@ -1,0 +1,55 @@
+modLoader="javafml"
+loaderVersion="${loader_range}"
+license="MIT"
+
+[[mods]]
+    modId="thikermagic"
+    version="${version}"
+    displayName="Thiker Magic"
+    authors="YG"
+    description='''
+    Thiker Magic wires Ars Nouveau's mana and casting into Tinkers' Construct. Make a
+    tool or a piece of armour out of Ars Nouveau materials and it comes with the matching
+    trait: carry it or wear it and your mana ceiling, your mana regen and your cast
+    cooldown all move with it.
+
+    Every modifier is plain datapack JSON under data/thikermagic, so other packs can
+    reference the same ids, re-point them with their own recipes, or hang them off their
+    own tools. Ars Nouveau itself is optional - without it the attributes still register,
+    they just have nothing to act on.
+    '''
+
+[[dependencies.thikermagic]]
+    modId="neoforge"
+    type="required"
+    versionRange="${neo_range}"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.thikermagic]]
+    modId="minecraft"
+    type="required"
+    versionRange="${minecraft_range}"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.thikermagic]]
+    modId="tconstruct"
+    type="required"
+    versionRange="${tconstruct_range}"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.thikermagic]]
+    modId="mantle"
+    type="required"
+    versionRange="${mantle_range}"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.thikermagic]]
+    modId="ars_nouveau"
+    type="optional"
+    versionRange="${ars_nouveau_range}"
+    ordering="AFTER"
+    side="BOTH"

@@ -1,0 +1,17 @@
+{
+  "type": "tconstruct:modifier",
+  "inputs": [
+    { "item": "tconstruct:necrotic_bone" },
+    { "item": "minecraft:ghast_tear" },
+    { "item": "minecraft:fermented_spider_eye" }
+  ],
+  "tools": [
+    { "tag": "tconstruct:modifiable/melee" },
+    { "tag": "tconstruct:modifiable/ranged/bows" },
+    { "tag": "tconstruct:modifiable/fishing_rods" }
+  ],
+  "slots": { "upgrades": 1 },
+  "allow_crystal": true,
+  "result": "thikermagic:lifesteal",
+  "level": { "max": 5 }
+}

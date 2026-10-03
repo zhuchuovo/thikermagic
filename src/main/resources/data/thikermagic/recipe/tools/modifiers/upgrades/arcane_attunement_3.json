@@ -1,0 +1,33 @@
+{
+  "type": "tconstruct:modifier",
+  "allow_crystal": false,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "ars_nouveau"
+    }
+  ],
+  "inputs": [
+    {
+      "amount_needed": 3,
+      "item": "ars_nouveau:source_gem"
+    },
+    {
+      "amount_needed": 4,
+      "item": "ars_nouveau:magebloom_fiber"
+    },
+    {
+      "item": "ars_nouveau:abjuration_essence"
+    }
+  ],
+  "level": 3,
+  "result": "thikermagic:arcane_attunement",
+  "tools": [
+    {
+      "tag": "tconstruct:modifiable/armor"
+    },
+    {
+      "tag": "tconstruct:modifiable/held"
+    }
+  ]
+}

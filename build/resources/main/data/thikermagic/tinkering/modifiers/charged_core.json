@@ -1,0 +1,24 @@
+{
+  "level_display": "tconstruct:default",
+  "modules": [
+    {
+      "type": "tconstruct:stat_boost",
+      "stat": "tconstruct:max_energy",
+      "operation": "add",
+      "each_level": 10000.0
+    },
+    {
+      "type": "tconstruct:trait",
+      "fixed_level": true,
+      "level": 1,
+      "name": "tconstruct:energy_handler"
+    },
+    {
+      "type": "thikermagic:charged_attack",
+      "damage_bonus": 0.2,
+      "attack_speed_bonus": 0.5,
+      "energy_per_attack": 100
+    }
+  ],
+  "tooltip_display": "always"
+}
