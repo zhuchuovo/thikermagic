@@ -1,63 +1,58 @@
-# Thiker Magic
+# Thiker Magic 匠艺魔法
 
-Turns Ars Nouveau's mana and casting into Tinkers' Construct materials. Build a tool or a
-piece of armour out of Ars Nouveau stock and it arrives with the matching trait: carry it
-or wear it and your mana ceiling, your mana regen and your cast cooldown all move with it.
+把 Ars Nouveau（魔艺）的法力与施法接进 Tinkers' Construct（匠魂）：用魔艺的材料做出的工具或装备，
+天生就带对应词条 —— 拿着或穿着，法力上限、法力回复、施法冷却都会跟着动。
 
-Every modifier ships as plain JSON under `data/thikermagic/tinkering/modifiers/`, so other
-packs can reference the same ids, re-point them with their own recipes, or hang them off
-their own tools.
+所有词条都是 `data/thikermagic/tinkering/modifiers/` 下的纯 JSON，别的整合包可以直接引用同一批 ID、
+用自己的配方改写，或者挂到自己的工具上。
 
-## Attributes
+## 属性
 
-Five attributes are registered and attached to players. Datapacks reference them with the
-`tconstruct:attribute` module, so any modifier — from this mod or any other — can feed them.
+模组注册了五个属性并挂到玩家身上；数据包用 `tconstruct:attribute` 模块引用它们，所以任何词条
+（本模组的或别的包的）都能喂这些属性。
 
-| Attribute | Default | Meaning |
+| 属性 | 默认 | 含义 |
 | --- | --- | --- |
-| `thikermagic:mana_regen` | `0` | Percentage bonus to Ars Nouveau mana regeneration. `0.25` = +25% |
-| `thikermagic:max_mana` | `0` | Percentage bonus to Ars Nouveau max mana. `0.25` = +25% |
-| `thikermagic:flat_max_mana` | `0` | Flat bonus in mana points, applied before the percentage, so the two compose as `(base + flat) * (1 + percent)`. `30` = +30 mana |
-| `thikermagic:mana_on_equip` | `0` | One-off payout of mana points when gear is equipped, not a continuous bonus. `20` = +20 mana |
-| `thikermagic:spell_cooldown_reduction` | `0` | Fraction of the cast cooldown removed. `0.4` = 60% as long |
+| `thikermagic:mana_regen` | `0` | 魔艺法力回复的百分比加成，`0.25` = +25% |
+| `thikermagic:max_mana` | `0` | 魔艺法力上限的百分比加成，`0.25` = +25% |
+| `thikermagic:flat_max_mana` | `0` | 固定点数上限，在百分比之前结算，两者合起来是 `(基础 + 固定) × (1 + 百分比)`，`30` = +30 点 |
+| `thikermagic:mana_on_equip` | `0` | 装备时**一次性**结算的法力点数，不是持续加成，`20` = 回 20 点 |
+| `thikermagic:spell_cooldown_reduction` | `0` | 施法冷却被削掉的比例，`0.4` = 只剩 60% 时长 |
 
-## Modifiers
+## 词条
 
-| Id | Type | Levels | Effect per level |
+| ID | 类型 | 等级 | 每级效果 |
 | --- | --- | --- | --- |
-| `thikermagic:mana_siphon` | Upgrade | 3 | +15% mana regeneration |
-| `thikermagic:spell_haste` | Upgrade | 3 | +8% cast cooldown reduction |
-| `thikermagic:arcane_attunement` | Upgrade | 3 | +10% max mana |
-| `thikermagic:mana_reservoir` | Ability | 1 | +40% max mana, +25% mana regeneration |
-| `thikermagic:arcane_surge` | Ability | 1 | +30% cooldown reduction, +30% mana regeneration |
+| `thikermagic:mana_siphon` | 升级 | 3 | 法力回复 +15% |
+| `thikermagic:spell_haste` | 升级 | 3 | 施法冷却缩减 +8% |
+| `thikermagic:arcane_attunement` | 升级 | 3 | 法力上限 +10% |
+| `thikermagic:mana_reservoir` | 能力 | 1 | 法力上限 +40%，法力回复 +25% |
+| `thikermagic:arcane_surge` | 能力 | 1 | 冷却缩减 +30%，法力回复 +30% |
 
-All five are collected in the modifier tag `thikermagic:arcane`.
+这五个都收在词条标签 `thikermagic:arcane` 里。
 
-## Forge Energy traits
+## Forge Energy（FE）词条
 
-`thikermagic:charged_core` (upgrade, levels 1-3, tag `thikermagic:energy`) is not an Ars Nouveau
-trait — it is the Forge Energy one. Tinkers' Construct already ships the storage side of this:
-`ToolEnergyCapability` keeps the energy in the tool's persistent data under `tconstruct:energy`, the
-capacity is the tool stat `tconstruct:max_energy`, and `ToolCapabilityProvider` exposes every tool
-with a non-zero capacity as an `IEnergyStorage`. The trait only supplies the numbers:
+`thikermagic:charged_core`（升级，1–3 级，标签 `thikermagic:energy`）不是魔艺词条，是管 FE 能量的那个。
+存储部分匠魂本体就提供了：`ToolEnergyCapability` 把电量存在工具的持久数据 `tconstruct:energy` 里，
+容量是工具属性 `tconstruct:max_energy`，`ToolCapabilityProvider` 会把所有容量大于 0 的工具注册成
+`IEnergyStorage`。所以这个词条只负责提供数值：
 
-- capacity: `tconstruct:stat_boost` on `tconstruct:max_energy`, **10000 per level**
-- `tconstruct:trait` pointing at `tconstruct:energy_handler`, which clamps the stored energy to the
-  capacity on tool change and prints `Energy: current / max FE` on the tooltip
-- `thikermagic:charged_attack`, the module in `com.yg.thikermagic.energy`
+- 容量：`tconstruct:stat_boost` 作用于 `tconstruct:max_energy`，**每级 10000**
+- `tconstruct:trait` 指向 `tconstruct:energy_handler`：工具数据变化时把电量夹到容量范围内，
+  并在 tooltip 上显示 `Energy: 当前 / 上限 FE`
+- `thikermagic:charged_attack`：`com.yg.thikermagic.energy` 里的自定义模块
 
-At a charge of `energy / capacity` the module multiplies melee damage by `1 + 0.2 * charge`, and
-`EnergyAttack` keeps `0.5 * charge` on the player's `minecraft:generic.attack_speed` as a transient
-attribute modifier, refreshed once per tick from whichever hand holds the better charged tool. Every
-landed melee hit drains 100 FE (`addEnergy` clamps at zero, so an empty tool is still usable, just
-unbuffed).
+按 `充能比例 = 电量 / 容量` 算，模块把近战伤害乘上 `1 + 0.2 × 比例`；`EnergyAttack` 则把
+`0.5 × 比例` 作为临时属性修饰符挂到玩家的 `minecraft:generic.attack_speed` 上，每 tick 重新算一次，
+取双手里那件充能更高的工具。每次成功命中扣 100 FE（`addEnergy` 会在 0 处夹断，所以没电的工具照样能用，
+只是没有加成）。
 
-Attack speed deliberately does not go through Tinkers' `tconstruct:attribute` module: those item
-attribute modifiers are built when the tool is equipped and the hook documents that the list must
-not change between equipping and unequipping, while energy changes every attack.
+攻速特意没有走匠魂的 `tconstruct:attribute` 模块：那种物品属性修饰符是在装备时构建一次的，而钩子文档
+明确要求装卸前后列表不能变，可电量每一击都在变。
 
-The three module fields are datapack fields (`damage_bonus`, `attack_speed_bonus`,
-`energy_per_attack`), so a pack can retune them or hang the module on a trait of its own:
+模块的三个数值都是数据包字段（`damage_bonus`、`attack_speed_bonus`、`energy_per_attack`），
+整合包可以调它们，也可以把模块挂到自己的词条上：
 
 ```json
 {
@@ -68,91 +63,78 @@ The three module fields are datapack fields (`damage_bonus`, `attack_speed_bonus
 }
 ```
 
-The arcana datapack (`datapacks/arcana/`) carries a worked example of the other direction: it hangs
-this trait, plus `arcana:manaflow`, on `tconstruct:iron` so every iron-headed tool or weapon comes
-with the FE trait, by adding `data/tconstruct/tinkering/materials/traits/iron.json` to the pack.
-Because Tinkers' ships a trait on every material that can make a tool part (iron's is
-`tconstruct:magnetic`, from its `default` list), the file re-lists that trait alongside ours —
-`perStat` keys replace, they do not append. Copy that file to make a different material hand out a
-charged tool; the pack README covers the category keys, the merge rules, how to narrow the binding
-to a single part, and why `materials traits` needs a stat type to show any of it.
+反方向的例子在 arcana 数据包（`datapacks/arcana/`）里：它给 `tconstruct:iron`（铁）的头／柄／绑定
+挂上这个词条和 `arcana:manaflow`，于是所有用铁做头部/绑定的工具、武器都自带 FE 词条 ——
+写法是往包里加 `data/tconstruct/tinkering/materials/traits/iron.json`。因为匠魂给每个能做工具部件的
+材料都写了词条（铁的是 `default` 里的 `tconstruct:magnetic`），文件里要把那条原词条一起列出来：
+`perStat` 的键是**替换**不是追加。想换成别的材料，照抄这个文件就行；类别键、合并规则、怎么只影响单个
+部位、以及为什么 `materials traits` 命令必须带部位类型，都在那个包的 README 里。
 
-### Filling a tool
+### 给工具充能
 
-The tool is a plain `IEnergyStorage`, so **anything that charges items works out of the box** —
-a tech mod's charger, battery, or player charger all fill it, and nothing here has to be involved.
+工具本身就是标准 `IEnergyStorage`，所以**任何能给物品充能的装置都能直接充** —— 科技模组的充电器、
+电池、玩家充电台都可以，完全不需要本模组参与。
 
-For packs with no tech mod, `EnergyCharging` adds a vanilla sink: hold the tool and a charging item
-in the other hand and **sneak + right click**. Default values, all editable in
-`config/thikermagic-common.toml` under `[energy_charging]`:
+没有科技模组的包，`EnergyCharging` 提供了原版手段：手持工具、另一只手持充能物品，**潜行 + 右键**。
+默认数值如下，都能在 `config/thikermagic-common.toml` 的 `[energy_charging]` 里改：
 
-| Item | Energy |
+| 物品 | 能量 |
 | --- | --- |
-| `minecraft:redstone` | 1000 FE |
-| `minecraft:redstone_block` | 9000 FE |
-| `minecraft:glowstone_dust` | 2000 FE |
-| `minecraft:amethyst_shard` | 4000 FE |
+| `minecraft:redstone` 红石粉 | 1000 FE |
+| `minecraft:redstone_block` 红石块 | 9000 FE |
+| `minecraft:glowstone_dust` 萤石粉 | 2000 FE |
+| `minecraft:amethyst_shard` 紫水晶碎片 | 4000 FE |
 
-`items` takes `"<item id>=<fe>"` lines, so a pack can point it at its own batteries. The item is
-only spent for what actually fits (a nearly full tool does not burn a whole block), a full tool
-reports itself instead of eating the item, and `requiresSneak = false` makes a plain right click
-charge — it defaults to `true` so the tool's own right click behaviour is never stolen.
+`items` 接受 `"<物品 ID>=<fe>"` 的写法，整合包可以指向自己的电池物品。物品只按**实际装得下的量**
+扣（快满电时不会白烧一整块），满电只提示不吞物品；`requiresSneak = false` 可以让普通右键也充能，
+默认 `true` 是为了不抢工具自己的右键功能。
 
-### Combat path, measured
+### 战斗链路实测
 
-Dev server, a zombie swinging a full-iron sword (three iron parts → `charged_core` 6, capacity
-60000) at a cow, damage applied with `/damage <cow> 4 minecraft:mob_attack by <zombie>`:
+开发服务端，让僵尸拿着**全铁剑**（三个部件全铁 → `charged_core` 6 级、容量 60000）打牛，
+伤害用 `/damage <牛> 4 minecraft:mob_attack by <僵尸>` 施加：
 
-| Tool energy | Damage | Cow | Energy after |
+| 工具电量 | 实际伤害 | 牛的血量 | 打完之后电量 |
 | --- | --- | --- | --- |
-| `{}` | 4.0 | 10.0 → 6.0 | `{}` |
-| `60000` | 4.8 = 4 × 1.2 | 6.0 → 5.2 | `59900` |
+| `{}`（空） | 4.0 | 10.0 → 6.0 | `{}` |
+| `60000`（满） | 4.8 = 4 × 1.2 | 6.0 → 5.2 | `59900` |
 
-That is `MONSTER_MELEE_DAMAGE` (+20% at full charge) and `MONSTER_MELEE_HIT` (100 FE per hit) end to
-end. The player path runs the same two methods through `MELEE_DAMAGE` / `afterMeleeHit`, so it needs
-no separate numbers; the attack speed half is a player attribute and still wants a real client to
-watch.
+这就是 `MONSTER_MELEE_DAMAGE`（满电 +20% 伤害）和 `MONSTER_MELEE_HIT`（每击 100 FE）端到端跑通的结果。
+玩家那条路走的是同一对方法（`MELEE_DAMAGE` / `afterMeleeHit`），所以数字一样；攻速那一半是玩家属性，
+仍然需要真客户端才能观察。
 
-## How the hook works
+## 钩子怎么工作
 
-Ars Nouveau exposes three public events that this mod listens to:
+模组监听了 Ars Nouveau 的三个公开事件：
 
-- `ManaRegenCalcEvent` — fires once per regen tick in `ManaUtil#getManaRegen`. The attribute
-  scales the already-computed value.
-- `MaxManaCalcEvent` — fires after gear, glyph and book-tier math in `ManaUtil#calcMaxMana`.
-- `SpellCastEvent` — fires before a cast resolves and is cancellable.
+- `ManaRegenCalcEvent` —— 在 `ManaUtil#getManaRegen` 里每个回复 tick 触发一次，属性按比例缩放算好的值
+- `MaxManaCalcEvent` —— 在 `ManaUtil#calcMaxMana` 里、装备/符文/书等级都算完之后触发
+- `SpellCastEvent` —— 施法结算之前触发，可取消
 
-Two NeoForge hooks round this out: `LivingEquipmentChangeEvent` notices a gear swap, and the end
-of the server tick pays the `thikermagic:mana_on_equip` payout it queued (one payout per player
-per 20 ticks, so swapping back and forth cannot farm mana).
+另外两个 NeoForge 钩子补上剩余部分：`LivingEquipmentChangeEvent` 捕捉换装，服务器 tick 末尾结算它排队
+的 `thikermagic:mana_on_equip` 付款（每个玩家 20 tick 内只结算一次，反复换装刷不出法力）。
 
-### Keeping the mana bar's ratio
+### 保住法力条的比例
 
-Ars Nouveau recomputes max mana **every tick** and clamps current mana to the new cap on every
-write. Because every max-mana bonus this mod feeds in lives on a piece of Tinkers' gear, simply
-putting a tool away or taking off a piece of armor moves the cap: the bar loses its fill ratio
-when the cap grows, and the mana above the new cap is destroyed when it shrinks.
+Ars Nouveau **每 tick** 重算法力上限，并在每次写法力时把当前值夹到新上限。因为本模组喂进去的上限加成
+都长在匠魂装备上，收起工具或脱下一件护甲就会挪动上限：上限变大时法力条丢掉填充比例，上限变小时
+超出的法力被直接抹掉。
 
-`[max_mana] keepManaRatio` (default `true`, `config/thikermagic-common.toml`) scales current mana
-by the same factor the cap moved by, so a full bar stays full through a gear swap. Set it to
-`false` to let Ars Nouveau clamp current mana to the new cap instead.
+`[max_mana] keepManaRatio`（默认 `true`，在 `config/thikermagic-common.toml`）会按上限变化的同一比例
+缩放当前法力，所以换装前后满条仍然是满条。设成 `false` 就交回给 Ars Nouveau 自己夹断。
 
-The rescale runs at the end of the server tick. Ars Nouveau refreshes the cap during
-`PlayerTickEvent.Pre` of the tick *after* the gear change and only clamps on the regen tick after
-that, so the new cap is already in place by the time the ratio is restored.
+缩放在服务器 tick 末尾执行。Ars Nouveau 在换装**后一 tick** 的 `PlayerTickEvent.Pre` 刷新上限，
+再下一 tick 的回复才夹断，所以比例恢复时新上限已经就位。
 
-Ars Nouveau has **no native cast cooldown**, so this mod supplies one: after a successful cast
-the casting tool goes on cooldown for `castCooldownTicks` (default `10`, configurable in
-`config/thikermagic-common.toml`), and `thikermagic:spell_cooldown_reduction` shortens it.
-Set `cooldownTicks = 0` to leave Ars Nouveau casting completely untouched — the other two
-attributes keep working either way.
+Ars Nouveau **本身没有施法冷却**，冷却由本模组提供：成功施法后施法工具进入 `castCooldownTicks`
+（默认 `10`，可在 `config/thikermagic-common.toml` 配置）的冷却，`thikermagic:spell_cooldown_reduction`
+会缩短它。把 `cooldownTicks = 0` 可以完全不动魔艺的施法 —— 另外两个属性照常工作。
 
-Ars Nouveau is an **optional** dependency. Without it the attributes still register and
-modifiers still apply, they simply have nothing to act on.
+Ars Nouveau 是**可选**前置。没装时属性照常注册、词条照常生效，只是没有作用对象。
 
-## Writing your own modifier
+## 写自己的词条
 
-`data/<your_pack>/tinkering/modifiers/arcane_focus.json`:
+`data/<你的整合包>/tinkering/modifiers/arcane_focus.json`：
 
 ```json
 {
@@ -171,26 +153,24 @@ modifiers still apply, they simply have nothing to act on.
 }
 ```
 
-## Merged packs
+## 并入的模组
 
-The standalone `Ticglossary` mod was folded into this one, so a single jar now carries both. Its two
-modifiers live under this namespace and nothing else about them changed:
+独立的 `Ticglossary`（匠魂词库）已经并进本模组，现在一个 jar 同时带两边的词条。它那两个词条落在
+`thikermagic` 命名空间下，其余一切不变：
 
-| Id | Type | Source | Effect |
+| ID | 类型 | 用什么实现 | 效果 |
 | --- | --- | --- | --- |
-| `thikermagic:lifesteal` | Upgrade, max 5 | `tconstruct:lifesteal` module | Attacks restore 5% of dealt damage per level and use 1 durability |
-| `thikermagic:creative_flight` | Ability | `neoforge:creative_flight` attribute | Chestplates grant creative-style flight |
+| `thikermagic:lifesteal` | 升级，最高 5 级 | 匠魂自带的 `tconstruct:lifesteal` 模块 | 每级回复造成伤害的 5%，每次触发多磨 1 点耐久 |
+| `thikermagic:creative_flight` | 能力 | NeoForge 自带的 `neoforge:creative_flight` 属性 | 穿胸甲时像创造模式那样飞 |
 
-Their recipes, salvage recipes, translations, modifier icons and the entries that put them in
-Tinkers' book tags (`tconstruct:modifiers/upgrades/general`,
-`tconstruct:modifiers/abilities/general`) all came along. The icons also moved to the path Tinkers'
-actually reads, `assets/<namespace>/tinkering/modifier_icons.json` — the old mod shipped them as
-`tinkering/modifiers.json`, which `ModifierIconManager` never loads, so they had never shown up.
+它们的配方、打捞配方、翻译、词条图标，以及让它们出现在匠魂手册里的标签条目
+（`tconstruct:modifiers/upgrades/general`、`tconstruct:modifiers/abilities/general`）都一并搬过来了。
+图标还挪到了匠魂真正会读的路径 `assets/<命名空间>/tinkering/modifier_icons.json` —— 旧模组把它写成
+`tinkering/modifiers.json`，而 `ModifierIconManager` 从不加载那个文件名，所以图标一直没显示过。
 
-`../Ticglossary1.21.1` is kept as the pre-merge snapshot. Do not ship it next to this mod: its
-`ticglossary:*` ids are duplicates of the modifiers above.
+`../Ticglossary1.21.1` 保留为合并前的快照。别和本模组同时装：它的 `ticglossary:*` 和上面的词条是重复的。
 
-## Building
+## 构建
 
 ```powershell
 $env:JAVA_HOME='D:\code\mcmod\.toolchains\jdk-21\jdk-21.0.11+10'
@@ -198,6 +178,5 @@ $env:GRADLE_USER_HOME='D:\code\mcmod\.gradle-home'
 .\gradlew.bat build
 ```
 
-The output jar lands in `build/libs/`. Tinkers' Construct, Mantle and Ars Nouveau are consumed
-from sibling checkouts / the project folder as compile-only dependencies, so they are never
-bundled into the jar.
+产物 jar 在 `build/libs/`。Tinkers' Construct、Mantle、Ars Nouveau 都是从同级 checkout／项目目录里
+以 compile-only 方式引入的，所以永远不会被打进 jar。

@@ -1,24 +1,14 @@
-# Compiled class file
+# 构建产物与本地运行目录（不入库）
+/build/
+/run/
+/.gradle/
 *.class
-
-# Log file
 *.log
-
-# BlueJ files
-*.ctxt
-
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
-
-# Package Files #
-*.jar
-*.war
-*.nar
-*.ear
-*.zip
-*.tar.gz
-*.rar
-
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+
+# 编译期依赖：放在项目根目录的 mod jar，只用于开发，不随仓库分发
+/*.jar
+
+# 注意：gradle/wrapper/gradle-wrapper.jar 必须入库，所以这里只排除根目录的 jar。
+# datapacks/*.zip 与 resourcepacks/*.zip 是随包分发的成品，也不排除。
